@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include<conio.h>
 
 struct employee
 {
@@ -17,6 +18,13 @@ struct room
     int price;
     char catagory[5];
     struct room *next1;
+};
+
+struct food
+{
+    char name[30];
+    int price;
+    struct food *next2;
 };
 
 void show_employee_details(struct employee *e)
@@ -61,6 +69,14 @@ void show_room_details(struct room *r)
 int main()
 {
     int a;
+    char p[] = "Shaon241", pass[32];
+    printf("Enter Your Password : ");
+    scanf("%s", pass);
+    if((strcmp(p, pass))==0){
+        printf("Login Successully\n");
+    }
+    else
+    printf("Invalid Password\n");
     struct employee *e1, *e2, *e3, *e4, *e5;
 
     e1 = (struct employee *)malloc(sizeof(struct employee));
@@ -134,7 +150,25 @@ int main()
     r5->price = 800;
     strcpy(r5->catagory, "E");
 
+    struct food *f1, *f2, *f3, *f4, *f5;
+
+    f1 = (struct food *)malloc(sizeof(struct food));
+    f2 = (struct food *)malloc(sizeof(struct food));
+    f3 = (struct food *)malloc(sizeof(struct food));
+    f4 = (struct food *)malloc(sizeof(struct food));
+    f5 = (struct food *)malloc(sizeof(struct food));
+
+    f1->next2 = f2;
+    f2->next2 = f3;
+    f3->next2 = f4;
+    f4->next2 = f5;
+    f5->next2 = NULL;
+
+    printf("\n\t\t\t\t---------Welcome to our Hotel Dalas---------\n");
+
+    New :
     printf("1. Show employee details\n2. Search employee by id\n3. Room details\n");
+    printf("Choose your option : ");
     scanf("%d", &a);
 
     // int t;
@@ -153,6 +187,13 @@ int main()
 
     else if (a == 3)
         show_room_details(r1);
+    
+    printf("press 5 to continue program and 6 to exit program : ");
+    int c;
+    scanf("%d", &c);
+    if(c==5){
+    goto New;
+    }
 
-        return 0;
+    return 0;
 }
