@@ -1,1 +1,2 @@
-Shoan241
+ // int t;
+    // while((t = getchar()) !='\n' && t != EOF);

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<conio.h>
+#include <conio.h>
 
 struct employee
 {
@@ -27,8 +27,95 @@ struct food
     struct food *next2;
 };
 
+struct login
+{
+    char fristname[20];
+    char lastname[20];
+    char username[20];
+    char password[32];
+};
+
+void login();
+void regist();
+
+void login()
+{
+    int found = 0;
+    char username[20];
+    char password[32];
+
+    struct login l;
+    FILE *ptr;
+    ptr = fopen("login.txt", "r");
+
+    if(ptr == NULL){
+        printf("Error opening file\n");
+        return;
+    }
+
+    // int t;
+    // while((t = getchar()) !='\n' && t != EOF);
+    printf("Enter Your Username : ");
+    fgets(username, sizeof(username), stdin);
+    printf("Enter Your Password : ");
+    fgets(password, sizeof(password), stdin);
+
+    username[strcspn(username, "\n")] = 0;
+    password[strcspn(password, "\n")] = 0;
+    
+    while (fread(&l, sizeof(l), 1, ptr))
+    {
+        if(strcmp(username, l.username)==0 && strcmp(password, l.password)==0){
+            found++;
+            printf("login successful\n");
+            found++;
+            break;
+        }
+    }
+
+    if (found == 0)
+        printf("Wrong Password or Username");
+
+    fclose(ptr);
+}
+
+void regist()
+{
+    // int t;
+    // while((t = getchar()) !='\n' && t != EOF);
+    FILE *ptr;
+    ptr = fopen("login.txt", "a+");
+    if(ptr == NULL){
+        printf("Error opening file\n");
+        return;
+    }
+    struct login l;
+    printf("Enter Your First Name : ");
+    fgets(l.fristname, 20, stdin);
+    printf("Enter Your last Name : ");
+    fgets(l.lastname, 20, stdin);
+    printf("Enter Your Username : ");
+    fgets(l.username, 20, stdin);
+    printf("Enter Your Password : ");
+    fgets(l.password, 32, stdin);
+
+    l.username[strcspn(l.username, "\n")] = 0;
+    l.password[strcspn(l.password, "\n")] = 0;
+
+    fwrite(&l, sizeof(l), 1, ptr);
+    fclose(ptr);
+    // getch();
+    // system("CLS");
+    printf("Congratulation Registration Successfull!!\n\n\n\n\n\n\n");
+    printf("Press any key to continue");
+    getch();
+    system("CLS");
+    login();
+}
+
 void show_employee_details(struct employee *e)
 {
+    system("CLS");
     while (e != NULL)
     {
         printf("Name \t: %s\n", e->name);
@@ -43,6 +130,7 @@ void show_employee_details(struct employee *e)
 
 void search(struct employee *e, int id)
 {
+    system("CLS");
     while (e->id != id)
     {
         e = e->next;
@@ -55,6 +143,7 @@ void search(struct employee *e, int id)
 
 void show_room_details(struct room *r)
 {
+    system("CLS");
     while (r != NULL)
     {
         printf("Room NO \t: %s\n", r->roomno);
@@ -68,15 +157,15 @@ void show_room_details(struct room *r)
 
 int main()
 {
-    int a;
-    char p[] = "Shaon241", pass[32];
-    printf("Enter Your Password : ");
-    scanf("%s", pass);
-    if((strcmp(p, pass))==0){
-        printf("Login Successully\n");
-    }
-    else
-    printf("Invalid Password\n");
+    int a, d, t;
+    // char p[] = "Shaon241", pass[32];
+    // printf("Enter Your Password : ");
+    // scanf("%s", pass);
+    // if((strcmp(p, pass))==0){
+    //     printf("Login Successully\n");
+    // }
+    // else
+    // printf("Invalid Password\n");
     struct employee *e1, *e2, *e3, *e4, *e5;
 
     e1 = (struct employee *)malloc(sizeof(struct employee));
@@ -164,9 +253,16 @@ int main()
     f4->next2 = f5;
     f5->next2 = NULL;
 
+    printf("1.Loging\n2.registration\n");
+    scanf("%d", &d);
+    getchar();
+    if(d==1)
+    login();
+    else
+    regist();
     printf("\n\t\t\t\t---------Welcome to our Hotel Dalas---------\n");
 
-    New :
+New:
     printf("1. Show employee details\n2. Search employee by id\n3. Room details\n");
     printf("Choose your option : ");
     scanf("%d", &a);
@@ -187,12 +283,13 @@ int main()
 
     else if (a == 3)
         show_room_details(r1);
-    
+
     printf("press 5 to continue program and 6 to exit program : ");
     int c;
     scanf("%d", &c);
-    if(c==5){
-    goto New;
+    if (c == 5)
+    {
+        goto New;
     }
 
     return 0;
